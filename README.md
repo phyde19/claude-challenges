@@ -13,8 +13,8 @@ Embrace chaos in the learning process
 
 ### Challenges
 
-Variational Autoencoder for Anomaly Detection
-[More to come...]
+1. Variational Autoencoder for Anomaly Detection
+[More to come...] 
 
 ### Dive In
 
