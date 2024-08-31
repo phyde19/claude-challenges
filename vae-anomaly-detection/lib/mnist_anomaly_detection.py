@@ -18,6 +18,26 @@ class MNISTAnomalyDetection:
     self._train_dataset = train_dataset
 
   def _test_train_split(self, normal: Dataset, anomaly: Dataset, test_ratio: float, test_anomaly_ratio: float):
+    '''
+    Let n = len(test dataset) + len(train dataset), then
+
+    n * (train_ratio + test_ratio * test_normal_ratio) -> # normal examples needed
+    n * (test_ratio * test_anomaly_ratio) -> # anomaly examples needed
+
+    We're constrained by the size of the normal labels (usually just one digit)
+    => n = len(normal) / (train_ratio + test_ratio * test_normal_ratio)
+    
+    num_train_normal = n * train_ratio
+    num_test_normal  = n * test_ratio * test_normal_ratio
+    num_test_anomaly = n * test_ratio * test_anomaly_ratio
+
+    Due to floored division truncation, better to do
+
+    num_train_normal = n * train_ratio
+    num_test_normal  = len(normal) - num_train_normal
+    num_test_anomaly = num_test_normal * test_anomaly_ratio / test_normal_ratio
+
+    '''
     train_ratio = 1 - test_ratio
     test_normal_ratio = 1 - test_anomaly_ratio
     abs_test_normal_ratio = test_ratio * test_normal_ratio
